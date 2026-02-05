@@ -9,7 +9,17 @@
     <script>
         tailwind.config = {"theme":{"extend":{"colors":{"primary":"#007AFF","secondary":"#34C759","accent":"#FF9500","destructive":"#FF3B30","macos_bg_light":"#F6F6F6","macos_bg_dark":"#2D2D2D","macos_secondary_bg_light":"#FFFFFF","macos_secondary_bg_dark":"#3C3C3C","macos_tertiary_bg_light":"#EFEFEF","macos_tertiary_bg_dark":"#232323","macos_label_light":"#000000","macos_label_dark":"#FFFFFF","macos_secondary_label_light":"rgba(60, 60, 67, 0.6)","macos_secondary_label_dark":"rgba(235, 235, 245, 0.6)","macos_separator_light":"rgba(60, 60, 67, 0.15)","macos_separator_dark":"rgba(84, 84, 88, 0.4)","macos_placeholder_light":"rgba(60, 60, 67, 0.3)","macos_placeholder_dark":"rgba(235, 235, 245, 0.3)","macos_control_bg_light":"#FFFFFF","macos_control_bg_dark":"#5A5A5A","macos_control_border_light":"#CCCCCC","macos_control_border_dark":"#4A4A4A"}}},"darkMode":"class"}
     </script>
-    <style> /* Ensure buttons are clickable */ .standalone-actions button { pointer-events: auto !important; } </style>
+    <style> /* Ensure buttons are clickable */ .standalone-actions button { pointer-events: auto !important; }.draggable-item {
+    width: 150px; /* Fixed width */
+    height: 100px; /* Fixed height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    overflow: hidden; /* Prevents text from spilling out */
+    word-wrap: break-word;
+} </style>
 </head>
 <body class="p-4 sm:p-6 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
     <h1 class="text-2xl font-semibold text-center mb-4">Match Up</h1>
