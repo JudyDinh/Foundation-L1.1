@@ -9,89 +9,81 @@
     <script>
         tailwind.config = {"theme":{"extend":{"colors":{"primary":"#007AFF","secondary":"#34C759","accent":"#FF9500","destructive":"#FF3B30","macos_bg_light":"#F6F6F6","macos_bg_dark":"#2D2D2D","macos_secondary_bg_light":"#FFFFFF","macos_secondary_bg_dark":"#3C3C3C","macos_tertiary_bg_light":"#EFEFEF","macos_tertiary_bg_dark":"#232323","macos_label_light":"#000000","macos_label_dark":"#FFFFFF","macos_secondary_label_light":"rgba(60, 60, 67, 0.6)","macos_secondary_label_dark":"rgba(235, 235, 245, 0.6)","macos_separator_light":"rgba(60, 60, 67, 0.15)","macos_separator_dark":"rgba(84, 84, 88, 0.4)","macos_placeholder_light":"rgba(60, 60, 67, 0.3)","macos_placeholder_dark":"rgba(235, 235, 245, 0.3)","macos_control_bg_light":"#FFFFFF","macos_control_bg_dark":"#5A5A5A","macos_control_border_light":"#CCCCCC","macos_control_border_dark":"#4A4A4A"}}},"darkMode":"class"}
     </script>
-    <style> /* Ensure buttons are clickable */ .standalone-actions button { pointer-events: auto !important; }.draggable-item {
-    width: 150px; /* Fixed width */
-    height: 100px; /* Fixed height */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 10px;
-    overflow: hidden; /* Prevents text from spilling out */
-    word-wrap: break-word;
-} </style>
+    <style> 
+        /* Ensure buttons are clickable */ 
+        .standalone-actions button { pointer-events: auto !important; } 
+    </style>
 </head>
 <body class="p-4 sm:p-6 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
     <h1 class="text-2xl font-semibold text-center mb-4">Match Up</h1>
     <div id="standalone-activity" class="max-w-4xl mx-auto bg-white dark:bg-gray-700 p-4 rounded shadow">
         <div class="matchup-container flex flex-col flex-grow">
-        <div class="matchup-grid-container grid grid-cols-3 gap-4 mb-6">
+        
+        <div class="matchup-grid-container grid grid-cols-3 gap-4 mb-6 auto-rows-fr">
+            
             <div id="matchup-terms-list" class="matchup-column-style space-y-2">
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-0">
-                <span>1. A piece of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
+                <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[60px] h-full flex items-center justify-between" data-pair-id="pair-0">
+                    <span>1. A piece of</span>
+                    <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span>
+                </div>
+                <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[60px] h-full flex items-center justify-between" data-pair-id="pair-1">
+                    <span>2. A work of</span>
+                    <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span>
+                </div>
+                <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[60px] h-full flex items-center justify-between" data-pair-id="pair-2">
+                    <span>3. A loaf of</span>
+                    <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span>
+                </div>
+                <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[60px] h-full flex items-center justify-between" data-pair-id="pair-3">
+                    <span>4. An ear of</span>
+                    <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span>
+                </div>
+                <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[60px] h-full flex items-center justify-between" data-pair-id="pair-4">
+                    <span>5. A jar of</span>
+                    <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span>
+                </div>
+                <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[60px] h-full flex items-center justify-between" data-pair-id="pair-5">
+                    <span>6. A pinch of</span>
+                    <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span>
+                </div>
+                <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[60px] h-full flex items-center justify-between" data-pair-id="pair-6">
+                    <span>7. A shot of</span>
+                    <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span>
+                </div>
+                <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[60px] h-full flex items-center justify-between" data-pair-id="pair-7">
+                    <span>8. A drop of</span>
+                    <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span>
+                </div>
             </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-1">
-                <span>2. A work of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
+
+            <div id="matchup-dropzone-list" class="matchup-column-style space-y-2">
+                <div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[60px] h-full flex items-center justify-center p-1" data-term-id="pair-0"></div>
+                <div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[60px] h-full flex items-center justify-center p-1" data-term-id="pair-1"></div>
+                <div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[60px] h-full flex items-center justify-center p-1" data-term-id="pair-2"></div>
+                <div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[60px] h-full flex items-center justify-center p-1" data-term-id="pair-3"></div>
+                <div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[60px] h-full flex items-center justify-center p-1" data-term-id="pair-4"></div>
+                <div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[60px] h-full flex items-center justify-center p-1" data-term-id="pair-5"></div>
+                <div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[60px] h-full flex items-center justify-center p-1" data-term-id="pair-6"></div>
+                <div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[60px] h-full flex items-center justify-center p-1" data-term-id="pair-7"></div>
             </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-2">
-                <span>3. A loaf of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-3">
-                <span>4. An ear of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-4">
-                <span>5. A jar of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-5">
-                <span>6. A pinch of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-6">
-                <span>7. A shot of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-7">
-                <span>8. A drop of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div></div>
-            <div id="matchup-dropzone-list" class="matchup-column-style space-y-2"><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-0" aria-label="Drop area for term 1. A piece of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-1" aria-label="Drop area for term 2. A work of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-2" aria-label="Drop area for term 3. A loaf of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-3" aria-label="Drop area for term 4. An ear of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-4" aria-label="Drop area for term 5. A jar of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-5" aria-label="Drop area for term 6. A pinch of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-6" aria-label="Drop area for term 7. A shot of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-7" aria-label="Drop area for term 8. A drop of"></div></div>
+
             <div id="matchup-definitions-list" class="matchup-column-style space-y-2">
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-4" data-pair-id="pair-4" aria-grabbed="false">
-                honey
+                <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[60px] h-full flex items-center justify-center text-center" draggable="true" id="definition-pair-4" data-pair-id="pair-4">honey</div>
+                <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[60px] h-full flex items-center justify-center text-center" draggable="true" id="definition-pair-7" data-pair-id="pair-7">blood</div>
+                <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[60px] h-full flex items-center justify-center text-center" draggable="true" id="definition-pair-1" data-pair-id="pair-1">art</div>
+                <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[60px] h-full flex items-center justify-center text-center" draggable="true" id="definition-pair-2" data-pair-id="pair-2">bread</div>
+                <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[60px] h-full flex items-center justify-center text-center" draggable="true" id="definition-pair-5" data-pair-id="pair-5">salt</div>
+                <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[60px] h-full flex items-center justify-center text-center" draggable="true" id="definition-pair-0" data-pair-id="pair-0">advice</div>
+                <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[60px] h-full flex items-center justify-center text-center" draggable="true" id="definition-pair-6" data-pair-id="pair-6">whiskey</div>
+                <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[60px] h-full flex items-center justify-center text-center" draggable="true" id="definition-pair-3" data-pair-id="pair-3">corn</div>
             </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-7" data-pair-id="pair-7" aria-grabbed="false">
-                blood
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-1" data-pair-id="pair-1" aria-grabbed="false">
-                art
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-2" data-pair-id="pair-2" aria-grabbed="false">
-                bread
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-5" data-pair-id="pair-5" aria-grabbed="false">
-                salt
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-0" data-pair-id="pair-0" aria-grabbed="false">
-                advice
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-6" data-pair-id="pair-6" aria-grabbed="false">
-                whiskey
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-3" data-pair-id="pair-3" aria-grabbed="false">
-                corn
-            </div></div>
         </div>
+
         <div class="matchup-actions mt-auto pt-4 border-t border-macos_separator_light dark:border-macos_separator_dark flex flex-wrap justify-center gap-3">
              <button id="matchup-check-btn" class="px-4 py-1.5 text-sm bg-secondary text-white rounded-md shadow-sm hover:brightness-110">Check Answers</button>
              <button id="matchup-show-btn" class="px-4 py-1.5 text-sm bg-primary text-white rounded-md shadow-sm hover:brightness-110">Show Answers</button>
         </div>
     </div>
-        
     </div>
 
     <script type="module">
