@@ -3,608 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Match Up</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Match Up - Interactive Game</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {"theme":{"extend":{"colors":{"primary":"#007AFF","secondary":"#34C759","accent":"#FF9500","destructive":"#FF3B30","macos_bg_light":"#F6F6F6","macos_bg_dark":"#2D2D2D","macos_secondary_bg_light":"#FFFFFF","macos_secondary_bg_dark":"#3C3C3C","macos_tertiary_bg_light":"#EFEFEF","macos_tertiary_bg_dark":"#232323","macos_label_light":"#000000","macos_label_dark":"#FFFFFF","macos_secondary_label_light":"rgba(60, 60, 67, 0.6)","macos_secondary_label_dark":"rgba(235, 235, 245, 0.6)","macos_separator_light":"rgba(60, 60, 67, 0.15)","macos_separator_dark":"rgba(84, 84, 88, 0.4)","macos_placeholder_light":"rgba(60, 60, 67, 0.3)","macos_placeholder_dark":"rgba(235, 235, 245, 0.3)","macos_control_bg_light":"#FFFFFF","macos_control_bg_dark":"#5A5A5A","macos_control_border_light":"#CCCCCC","macos_control_border_dark":"#4A4A4A"}}},"darkMode":"class"}
     </script>
-    <style> /* Ensure buttons are clickable */ .standalone-actions button { pointer-events: auto !important; }.matchup-dropzone .matchup-definition {
+    <style> 
+        /* Ensure cells have consistent height regardless of content */
+        .matchup-dropzone .matchup-definition {
             width: 100%;
             height: 100%;
             border: none;
-        } </style>
+            box-shadow: none;
+        }
+        .dragging { opacity: 0.4; }
+        .drag-over { background-color: rgba(0, 122, 255, 0.1); border-color: #007AFF !important; }
+        
+        /* Fixed height for all matching rows */
+        .match-row-height { height: 3.5rem; } /* h-14 equivalent */
+    </style>
 </head>
 <body class="p-4 sm:p-6 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-    <h1 class="text-2xl font-semibold text-center mb-4">Match Up</h1>
-    <div id="standalone-activity" class="max-w-4xl mx-auto bg-white dark:bg-gray-700 p-4 rounded shadow">
-        <div class="matchup-container flex flex-col flex-grow">
-        <div class="matchup-grid-container grid grid-cols-3 gap-4 mb-6">
-            <div id="matchup-terms-list" class="matchup-column-style space-y-2">
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-0">
-                <span>1. A piece of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-1">
-                <span>2. A work of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-2">
-                <span>3. A loaf of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-3">
-                <span>4. An ear of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-4">
-                <span>5. A jar of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-5">
-                <span>6. A pinch of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-6">
-                <span>7. A shot of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div>
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark min-h-[45px] flex items-center justify-between" data-pair-id="pair-7">
-                <span>8. A drop of</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span> <!-- ADDED STATUS SPAN -->
-            </div></div>
-            <div id="matchup-dropzone-list" class="matchup-column-style space-y-2"><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-0" aria-label="Drop area for term 1. A piece of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-1" aria-label="Drop area for term 2. A work of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-2" aria-label="Drop area for term 3. A loaf of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-3" aria-label="Drop area for term 4. An ear of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-4" aria-label="Drop area for term 5. A jar of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-5" aria-label="Drop area for term 6. A pinch of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-6" aria-label="Drop area for term 7. A shot of"></div><div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded min-h-[45px] flex items-center justify-center p-1" data-term-id="pair-7" aria-label="Drop area for term 8. A drop of"></div></div>
-            <div id="matchup-definitions-list" class="matchup-column-style space-y-2">
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-4" data-pair-id="pair-4" aria-grabbed="false">
-                honey
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-7" data-pair-id="pair-7" aria-grabbed="false">
-                blood
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-1" data-pair-id="pair-1" aria-grabbed="false">
-                art
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-2" data-pair-id="pair-2" aria-grabbed="false">
-                bread
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-5" data-pair-id="pair-5" aria-grabbed="false">
-                salt
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-0" data-pair-id="pair-0" aria-grabbed="false">
-                advice
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-6" data-pair-id="pair-6" aria-grabbed="false">
-                whiskey
-            </div>
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 min-h-[45px] flex items-center" draggable="true" id="definition-pair-3" data-pair-id="pair-3" aria-grabbed="false">
-                corn
-            </div></div>
+    <h1 class="text-2xl font-semibold text-center mb-6">Match Up</h1>
+    
+    <div id="standalone-activity" class="max-w-4xl mx-auto bg-white dark:bg-gray-700 p-6 rounded-xl shadow-lg">
         </div>
-        <div class="matchup-actions mt-auto pt-4 border-t border-macos_separator_light dark:border-macos_separator_dark flex flex-wrap justify-center gap-3">
-             <button id="matchup-check-btn" class="px-4 py-1.5 text-sm bg-secondary text-white rounded-md shadow-sm hover:brightness-110">Check Answers</button>
-             <button id="matchup-show-btn" class="px-4 py-1.5 text-sm bg-primary text-white rounded-md shadow-sm hover:brightness-110">Show Answers</button>
-        </div>
-    </div>
-        
-    </div>
 
     <script type="module">
-        // Embed ALL JavaScript here
-        
-    // --- Embedded Template Code for match-up ---
     const matchupTemplate = (() => {
-        try {
-            // Define functions directly in this scope
-            // --- START OF FILE js/templates/matchUp.js ---
-
-/**
- * Match Up Template Module
- *
- * Exports functions adhering to the standard template interface:
- * - parseInput(text): Parses the user input for term/definition pairs.
- * - generateHTML(parsedData): Generates the HTML structure for the match up activity. Returns { html: string, state: { pairs: array } }.
- * - addInteractivity(activityElement, state): Adds drag and drop listeners.
- * - checkAnswers(activityElement, state): Checks if dropped definitions match terms.
- * - showAnswers(activityElement, state): Moves definitions to their correct terms.
- */
-
-// --- Internal Helper Functions (Used within this module) ---
-
-/**
- * Shuffles array elements in place.
- * @param {Array} array - The array to shuffle.
- * @returns {Array} The shuffled array.
- */
- function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]]; // ES6 swap
-    }
-    return array;
-}
-
-
-// --- Exported Module Functions ---
-
-/**
- * Parses the input text into an array of term/definition pairs.
- * @param {string} text - User input, expected format: Term | Definition per line.
- * @returns {Array<object>} - Array of { id: string, term: string, definition: string }.
- */
-function parseInput(text) {
-    const pairs = [];
-    const lines = text.split('\n');
-    lines.forEach((line, index) => {
-        // Split by the first pipe or hyphen, allowing them in the definition
-        const parts = line.split(/[-|]/, 2); // Limit split to 2 parts
-        if (parts.length === 2) {
-            const term = parts[0].trim();
-            const definition = parts[1].trim();
-            if (term && definition) {
-                pairs.push({
-                    id: `pair-${index}`, // Unique ID for the pair
-                    term: term,
-                    definition: definition
-                });
-            } else {
-                 console.warn(`MatchUp: Skipping line ${index + 1} due to empty term or definition: "${line}"`);
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
             }
-        } else if (line.trim()) { // Warn if line has content but wrong format
-            console.warn(`MatchUp: Skipping line ${index + 1} due to invalid format (Expected 'Term | Definition'): "${line}"`);
+            return array;
         }
-    });
-    return pairs;
-}
 
-/**
- * Generates the HTML for the Match Up activity with Terms, Dropzones, and Definitions in separate columns.
- * @param {Array<object>} pairs - The array of pair objects from parseInput.
- * @returns {object} - { html: string, state: { pairs: Array<object> } }
- */
-function generateHTML(pairs) {
-    if (!pairs || pairs.length === 0) {
-        return {
-            html: '<p class="p-4 text-center text-macos_secondary_label_light dark:text-macos_secondary_label_dark">Please enter valid Term | Definition pairs, one per line.</p>',
-            state: { pairs: [] }
-        };
-    }
+        function generateHTML(pairs) {
+            const definitions = pairs.map(p => ({ id: p.id, text: p.definition }));
+            const shuffledDefinitions = shuffleArray([...definitions]);
 
-    // Prepare data
-    const definitions = pairs.map(p => ({ id: p.id, text: p.definition }));
-    const shuffledDefinitions = shuffleArray([...definitions]);
+            // Create column headers
+            const headerHTML = `
+                <div class="grid grid-cols-3 gap-4 mb-2 text-xs font-bold uppercase text-gray-500 tracking-wider">
+                    <div>Terms</div>
+                    <div>Matches</div>
+                    <div class="pl-4 border-l border-gray-200 dark:border-gray-600">Definitions</div>
+                </div>`;
 
-    // --- Build Term Column ---
-// 1. Terms: Changed min-h-[45px] to h-14 (fixed height)
-    let termsHTML = '<div id="matchup-terms-list" class="matchup-column-style space-y-2">';
-    pairs.forEach(pair => {
-        termsHTML += `
-            <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark h-14 flex items-center justify-between" data-pair-id="${pair.id}">
-                <span class="truncate">${pair.term}</span>
-                <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span>
-            </div>`;
-    });
-    termsHTML += '</div>';
+            let termsHTML = '<div id="matchup-terms-list" class="space-y-2">';
+            pairs.forEach(pair => {
+                termsHTML += `
+                    <div class="matchup-term-only p-3 bg-macos_tertiary_bg_light dark:bg-macos_secondary_bg_dark rounded border border-macos_separator_light dark:border-macos_separator_dark match-row-height flex items-center justify-between" data-pair-id="${pair.id}">
+                        <span class="truncate font-medium">${pair.term}</span>
+                        <span class="matchup-term-status text-lg w-5 text-center shrink-0 ml-2"></span>
+                    </div>`;
+            });
+            termsHTML += '</div>';
 
-    // --- Build Dropzone Column ---
-    let dropzonesHTML = '<div id="matchup-dropzone-list" class="matchup-column-style space-y-2">';
-                pairs.forEach(pair => {
-                    dropzonesHTML += `<div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded h-14 flex items-center justify-center p-0 overflow-hidden" data-term-id="${pair.id}" aria-label="Drop area"></div>`;
+            let dropzonesHTML = '<div id="matchup-dropzone-list" class="space-y-2">';
+            pairs.forEach(pair => {
+                dropzonesHTML += `<div class="matchup-dropzone border-2 border-dashed border-macos_control_border_light dark:border-macos_control_border_dark rounded match-row-height flex items-center justify-center p-0 overflow-hidden transition-colors" data-term-id="${pair.id}"></div>`;
+            });
+            dropzonesHTML += '</div>';
+
+            let definitionsHTML = '<div id="matchup-definitions-list" class="space-y-2 border-l border-gray-200 dark:border-gray-600 pl-4">';
+            shuffledDefinitions.forEach(definition => {
+                definitionsHTML += `
+                    <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab active:cursor-grabbing select-none p-2 match-row-height flex items-center justify-center text-center transition-all" draggable="true" id="definition-${definition.id}" data-pair-id="${definition.id}">
+                        ${definition.text}
+                    </div>`;
+            });
+            definitionsHTML += '</div>';
+
+            const finalHTML = `
+                <div class="matchup-container flex flex-col">
+                    ${headerHTML}
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        ${termsHTML}${dropzonesHTML}${definitionsHTML}
+                    </div>
+                    <div class="flex justify-center gap-4 pt-6 border-t border-gray-200 dark:border-gray-600">
+                         <button id="matchup-check-btn" class="px-6 py-2 bg-secondary text-white rounded-lg font-medium hover:brightness-110 transition-all">Check Answers</button>
+                         <button id="matchup-show-btn" class="px-6 py-2 bg-primary text-white rounded-lg font-medium hover:brightness-110 transition-all">Show Answers</button>
+                         <button id="matchup-reset-btn" class="px-6 py-2 bg-accent text-white rounded-lg font-medium hover:brightness-110 transition-all">Reset Game</button>
+                    </div>
+                </div>`;
+
+            return { html: finalHTML, state: { pairs: pairs } };
+        }
+
+        function addInteractivity(activityElement, state) {
+            const pool = activityElement.querySelector('#matchup-definitions-list');
+            const dropzones = activityElement.querySelectorAll('.matchup-dropzone');
+            let draggedItem = null;
+
+            // Use event delegation for dragstart to handle items in pool or dropzones
+            activityElement.addEventListener('dragstart', (e) => {
+                if (e.target.classList.contains('matchup-definition')) {
+                    draggedItem = e.target;
+                    e.dataTransfer.setData('text/plain', e.target.id);
+                    e.dataTransfer.effectAllowed = 'move';
+                    setTimeout(() => e.target.classList.add('dragging'), 0);
+                    
+                    // Clear row status if moving an item out of a zone
+                    if (e.target.parentElement.classList.contains('matchup-dropzone')) {
+                        const zone = e.target.parentElement;
+                        const status = activityElement.querySelector(`.matchup-term-only[data-pair-id="${zone.dataset.termId}"] .matchup-term-status`);
+                        if (status) status.textContent = '';
+                        zone.classList.remove('bg-green-50', 'bg-red-50', 'border-green-500', 'border-red-500');
+                    }
+                }
+            });
+
+            activityElement.addEventListener('dragend', (e) => {
+                if (e.target.classList.contains('matchup-definition')) {
+                    e.target.classList.remove('dragging');
+                    draggedItem = null;
+                }
+            });
+
+            // Allow dropping back into the definitions pool
+            pool.addEventListener('dragover', (e) => e.preventDefault());
+            pool.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if (draggedItem) {
+                    pool.appendChild(draggedItem);
+                    draggedItem.classList.remove('border-none');
+                }
+            });
+
+            dropzones.forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zone.classList.add('drag-over');
                 });
-                dropzonesHTML += '</div>';
+                zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('drag-over');
+                    
+                    if (!draggedItem) return;
 
-
-    // --- Build Definition Column (Draggable Items) ---
-// 3. Definitions: Changed min-h-[45px] to h-14
-    let definitionsHTML = '<div id="matchup-definitions-list" class="matchup-column-style space-y-2">';
-    shuffledDefinitions.forEach(definition => {
-        definitionsHTML += `
-            <div class="matchup-definition bg-white dark:bg-gray-600 border border-macos_control_border_light dark:border-macos_control_border_dark rounded shadow-sm cursor-grab select-none p-2 h-14 flex items-center" draggable="true" id="definition-${definition.id}" data-pair-id="${definition.id}" aria-grabbed="false">
-                <span class="w-full text-center">${definition.text}</span>
-            </div>`;
-    });
-    definitionsHTML += '</div>';
-
-    // --- Combine Columns into a Grid ---
-    // Use CSS Grid for better column control
-    const columnsHTML = `
-        <div class="matchup-grid-container grid grid-cols-3 gap-4 mb-6">
-            ${termsHTML}
-            ${dropzonesHTML}
-            ${definitionsHTML}
-        </div>`;
-
-    // --- Action Buttons (Keep as before) ---
-    const actionButtonsHTML = `
-        <div class="matchup-actions mt-auto pt-4 border-t border-macos_separator_light dark:border-macos_separator_dark flex flex-wrap justify-center gap-3">
-             <button id="matchup-check-btn" class="px-4 py-1.5 text-sm bg-secondary text-white rounded-md shadow-sm hover:brightness-110">Check Answers</button>
-             <button id="matchup-show-btn" class="px-4 py-1.5 text-sm bg-primary text-white rounded-md shadow-sm hover:brightness-110">Show Answers</button>
-        </div>
-    `;
-
-    // Combine Grid AND Action Buttons into the main container
-    // Main container needs flex-col to position buttons below grid
-    const finalHTML = `
-        <div class="matchup-container flex flex-col flex-grow">
-            <div class="matchup-grid-container grid grid-cols-3 gap-4 mb-6">
-                ${termsHTML}${dropzonesHTML}${definitionsHTML}
-            </div>
-            <div class="matchup-actions mt-auto pt-4 border-t border-macos_separator_light dark:border-macos_separator_dark flex flex-wrap justify-center gap-3">
-                 <button id="matchup-check-btn" class="px-4 py-1.5 text-sm bg-secondary text-white rounded-md shadow-sm hover:brightness-110">Check Answers</button>
-                 <button id="matchup-show-btn" class="px-4 py-1.5 text-sm bg-primary text-white rounded-md shadow-sm hover:brightness-110">Show Answers</button>
-            </div>
-        </div>`;
-    
-    return { html: finalHTML, state: { pairs: pairs } };
-}
-
-/**
- * Adds drag and drop interactivity to the Match Up elements.
- * @param {HTMLElement} activityElement - The container element holding the Match Up HTML
- * @param {object} state - The state object from generateHTML.
- */
-function addInteractivity(activityElement, state) {
-                const definitionsContainer = activityElement.querySelector('#matchup-definitions-list');
-                const dropzones = activityElement.querySelectorAll('.matchup-dropzone');
-                const definitions = activityElement.querySelectorAll('.matchup-definition');
-
-                let draggedItem = null;
-
-                definitions.forEach(definition => {
-                    definition.addEventListener('dragstart', (e) => {
-                        draggedItem = e.target;
-                        e.dataTransfer.setData('text/plain', e.target.id);
-                        setTimeout(() => { e.target.classList.add('dragging'); }, 0);
-                    });
-                    definition.addEventListener('dragend', (e) => {
-                        e.target.classList.remove('dragging');
-                        draggedItem = null;
-                    });
+                    // Swap logic: if box is full, move existing item back to the pool
+                    if (zone.children.length > 0 && zone.children[0] !== draggedItem) {
+                        const existing = zone.children[0];
+                        pool.appendChild(existing);
+                    }
+                    
+                    zone.appendChild(draggedItem);
                 });
+            });
 
-                dropzones.forEach(zone => {
-                    zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
-                    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-                    zone.addEventListener('drop', (e) => {
-                        e.preventDefault();
-                        zone.classList.remove('drag-over');
-                        const id = e.dataTransfer.getData('text/plain');
-                        const item = document.getElementById(id);
-                        
-                        if (zone.children.length > 0) {
-                            definitionsContainer.appendChild(zone.children[0]);
-                        }
-                        zone.appendChild(item);
-                        item.classList.add('dropped');
-                    });
-                });
-
-                // Listeners for buttons
-                activityElement.querySelector('#matchup-check-btn').addEventListener('click', () => checkAnswers(activityElement, state));
-                activityElement.querySelector('#matchup-show-btn').addEventListener('click', () => showAnswers(activityElement, state));
-            }
-
-    console.log("[MatchUp AddInteractivity] All required elements found. Proceeding with listener setup.");
-
-    let draggedItem = null;
-
-    // --- Draggable Definition Listeners ---
-    definitions.forEach(definition => {
-         definition.addEventListener('dragstart', (e) => {
-             draggedItem = e.target;
-             e.dataTransfer.setData('text/plain', e.target.id);
-             e.dataTransfer.effectAllowed = 'move';
-             setTimeout(() => { e.target.classList.add('dragging'); e.target.setAttribute('aria-grabbed', 'true'); }, 0);
-         });
-         definition.addEventListener('dragend', (e) => {
-             setTimeout(() => {
-                if (draggedItem) { draggedItem.classList.remove('dragging'); draggedItem.setAttribute('aria-grabbed', 'false'); }
-                draggedItem = null;
-             }, 0);
-         });
-    });
-
-    // --- Dropzone Listeners ---
-    dropzones.forEach(zone => {
-         zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); e.dataTransfer.dropEffect = 'move'; });
-         zone.addEventListener('dragleave', (e) => { if (e.relatedTarget !== zone && !zone.contains(e.relatedTarget)) { zone.classList.remove('drag-over'); } });
-         zone.addEventListener('drop', (e) => {
-             e.preventDefault(); zone.classList.remove('drag-over');
-             if (!draggedItem) return;
-             const definitionId = e.dataTransfer.getData('text/plain');
-             const droppedDefinition = activityElement.querySelector(`#${definitionId}`);
-             if (!droppedDefinition) return;
-
-             const existingItem = zone.querySelector('.matchup-definition');
-             if (existingItem && existingItem !== droppedDefinition) {
-                existingItem.classList.remove('dropped', 'correct-match', 'incorrect-match'); // Reset style
-                 existingItem.setAttribute('draggable', 'true'); existingItem.setAttribute('aria-grabbed', 'false');
-                 definitionsContainer.appendChild(existingItem);
-             }
-
-             if (droppedDefinition.parentNode !== zone) zone.appendChild(droppedDefinition);
-             droppedDefinition.classList.add('dropped'); droppedDefinition.classList.remove('dragging');
-             droppedDefinition.setAttribute('draggable', 'false'); droppedDefinition.setAttribute('aria-grabbed', 'false');
-
-             // --- Immediate Feedback ---
-             const correctTermId = zone.dataset.termId; const definitionPairId = droppedDefinition.dataset.pairId;
-             zone.classList.remove('correct', 'incorrect'); droppedDefinition.classList.remove('correct-match', 'incorrect-match');
-             if (correctTermId === definitionPairId) { zone.classList.add('correct'); droppedDefinition.classList.add('correct-match'); }
-             else { zone.classList.add('incorrect'); droppedDefinition.classList.add('incorrect-match'); }
-
-             draggedItem = null;
-         });
-    });
-
-     // --- Definitions Container Drop Listener (Allow returning items) ---
-     definitionsContainer.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'move'; });
-     definitionsContainer.addEventListener('drop', (e) => {
-         e.preventDefault();
-         const definitionId = e.dataTransfer.getData('text/plain');
-         const droppedDefinition = activityElement.querySelector(`#${definitionId}`);
-         if (droppedDefinition && droppedDefinition.parentNode !== definitionsContainer) {
-                     // Clear feedback from the dropzone it came from
-             const sourceZone = droppedDefinition.parentNode;
-             if (sourceZone && sourceZone.classList.contains('matchup-dropzone')) {
-                sourceZone.classList.remove('correct', 'incorrect');
-                // Also clear the corresponding term status
-                const sourceTermId = sourceZone.dataset.termId;
-                const sourceTermElement = activityElement.querySelector(`.matchup-term-only[data-pair-id="${sourceTermId}"]`);
-                const sourceStatusSpan = sourceTermElement?.querySelector('.matchup-term-status');
-                if (sourceStatusSpan) sourceStatusSpan.textContent = '';
-             }
-            // --- END ADDED SECTION ---
-             droppedDefinition.classList.remove('dropped', 'correct-match', 'incorrect-match');
-             droppedDefinition.setAttribute('draggable', 'true'); droppedDefinition.setAttribute('aria-grabbed', 'false');
-             if (droppedDefinition.parentNode?.classList.contains('matchup-dropzone')) { droppedDefinition.parentNode.classList.remove('correct', 'incorrect'); }
-             definitionsContainer.appendChild(droppedDefinition);
-         }
-          if (draggedItem) { draggedItem.classList.remove('dragging'); draggedItem = null; }
-     });
-
-    // --- Add listeners for the template-generated action buttons ---
-    const checkButton = activityElement.querySelector('#matchup-check-btn');
-    const showButton = activityElement.querySelector('#matchup-show-btn');
-
-    if (checkButton) {
-        checkButton.addEventListener('click', () => checkAnswers(activityElement, state));
-    } else { console.warn("MatchUp addInteractivity: Could not find #matchup-check-btn"); }
-
-    if (showButton) {
-        showButton.addEventListener('click', () => {
-            showAnswers(activityElement, state);
-            if(showButton) showButton.disabled = true;
-            //if(checkButton) checkButton.disabled = true;
-        });
-    } else { console.warn("MatchUp addInteractivity: Could not find #matchup-show-btn"); }
-
-    console.log("[MatchUp AddInteractivity] Listeners set up successfully."); // Add success log
-}
-
-
-/**
- * Checks all placed definitions against their terms and provides visual feedback
- * including status icons next to terms.
- * @param {HTMLElement} activityElement - The container element holding the Match Up HTML.
- * @param {object} state - The state object.
- */
-function checkAnswers(activityElement, state) {
-    if (!activityElement || !state || !state.pairs) return; // Added state check
-    console.log("[MatchUp] Checking answers...");
-
-    const dropzones = activityElement.querySelectorAll('.matchup-dropzone');
-    const termElements = activityElement.querySelectorAll('.matchup-term-only'); // Get all term elements
-
-    // Clear previous term statuses first
-    termElements.forEach(termEl => {
-        const statusSpan = termEl.querySelector('.matchup-term-status');
-        if (statusSpan) statusSpan.textContent = '';
-    });
-
-    dropzones.forEach(zone => {
-        const termId = zone.dataset.termId; // This is the pair ID (e.g., 'pair-0')
-        const droppedDefinition = zone.querySelector('.matchup-definition');
-
-        // Find the corresponding term element using the pair ID
-        const termElement = activityElement.querySelector(`.matchup-term-only[data-pair-id="${termId}"]`);
-        const statusSpan = termElement?.querySelector('.matchup-term-status'); // Find status span inside term element
-
-        // Reset previous dropzone check styles first
-        zone.classList.remove('correct', 'incorrect');
-        // Reset definition styles if needed
-        // if(droppedDefinition) droppedDefinition.classList.remove('correct-match', 'incorrect-match');
-
-
-        if (droppedDefinition) {
-            const definitionPairId = droppedDefinition.dataset.pairId;
-            if (termId === definitionPairId) {
-                // Correct match
-                zone.classList.add('correct');
-                if (statusSpan) statusSpan.textContent = '✅'; // Add checkmark
-                 // Optionally style definition: droppedDefinition.classList.add('correct-match');
-            } else {
-                // Incorrect match
-                zone.classList.add('incorrect');
-                if (statusSpan) statusSpan.textContent = '❌'; // Add X mark
-                 // Optionally style definition: droppedDefinition.classList.add('incorrect-match');
-            }
-        } else {
-            // Zone is empty - mark as incorrect
-            zone.classList.add('incorrect');
-            if (statusSpan) statusSpan.textContent = '❌'; // Add X mark for empty slot
+            // Button controls
+            activityElement.querySelector('#matchup-check-btn').addEventListener('click', () => checkAnswers(activityElement));
+            activityElement.querySelector('#matchup-show-btn').addEventListener('click', () => showAnswers(activityElement, state));
+            activityElement.querySelector('#matchup-reset-btn').addEventListener('click', () => resetGame(activityElement, state));
         }
-    });
-}
 
-function showAnswers(activityElement, state) {
-    if (!activityElement || !state || !state.pairs) { /* error handling */ return; }
-    console.log("[MatchUp] Showing answers..."); // Add log
-
-    // Clear existing term status icons
-    activityElement.querySelectorAll('.matchup-term-status').forEach(span => {
-        span.textContent = '';
-    });
-
-    const pairs = state.pairs;
-    const definitionsList = activityElement.querySelector('#matchup-definitions-list'); // The pool
-    const allDefinitions = activityElement.querySelectorAll('.matchup-definition'); // Get ALL definitions wherever they are
-
-    // 1. Reset all dropzones and move all definitions back to the pool
-    activityElement.querySelectorAll('.matchup-dropzone').forEach(zone => {
-        zone.innerHTML = ''; // Clear content
-        zone.classList.remove('correct', 'incorrect');
-    });
-    if (definitionsList) {
-         definitionsList.style.display = 'block'; // Make sure pool is visible
-         definitionsList.innerHTML = ''; // Clear pool initially
-         allDefinitions.forEach(def => {
-             def.classList.remove('dropped', 'correct-match', 'incorrect-match');
-             def.setAttribute('draggable', 'false'); // Make non-draggable
-             def.setAttribute('aria-grabbed', 'false');
-             def.style.cursor = 'default';
-             definitionsList.appendChild(def); // Add all back to the pool
-         });
-    } else { console.error("[MatchUp ShowAnswers] Definition list container not found."); return; }
-
-
-    // 2. Move each definition from the pool to its correct dropzone
-    pairs.forEach(pair => {
-        // Find the definition in the POOL using its specific ID
-        const correctDefinition = definitionsList.querySelector(`#definition-${pair.id}`);
-        const correctDropzone = activityElement.querySelector(`.matchup-dropzone[data-term-id="${pair.id}"]`);
-
-        if (correctDefinition && correctDropzone) {
-            correctDropzone.appendChild(correctDefinition); // Move to correct zone
-            correctDefinition.classList.add('dropped');
-            correctDropzone.classList.add('correct'); // Mark dropzone visually
-            // Optionally style the definition too
-            // correctDefinition.classList.add('correct-match');
-        } else {
-            if (!correctDefinition) console.warn(`[MatchUp ShowAnswers] Could not find definition element with ID #definition-${pair.id} in the pool.`);
-            if (!correctDropzone) console.warn(`[MatchUp ShowAnswers] Could not find dropzone element for term ID ${pair.id}.`);
+        function checkAnswers(activityElement) {
+            const dropzones = activityElement.querySelectorAll('.matchup-dropzone');
+            dropzones.forEach(zone => {
+                const termId = zone.dataset.termId;
+                const dropped = zone.querySelector('.matchup-definition');
+                const status = activityElement.querySelector(`.matchup-term-only[data-pair-id="${termId}"] .matchup-term-status`);
+                
+                zone.classList.remove('bg-green-50', 'bg-red-50', 'border-green-500', 'border-red-500');
+                if (dropped) {
+                    if (dropped.dataset.pairId === termId) {
+                        zone.classList.add('bg-green-50', 'border-green-500');
+                        status.textContent = '✅';
+                    } else {
+                        zone.classList.add('bg-red-50', 'border-red-500');
+                        status.textContent = '❌';
+                    }
+                }
+            });
         }
-    });
 
-     // Hide the now empty definition list
-     if (definitionsList) definitionsList.style.display = 'none';
-}
-
-
-            // --- NOW, explicitly create and return the object ---
-            const moduleInterface = {
-                parseInput: (typeof parseInput !== 'undefined' ? parseInput : undefined),
-                generateHTML: (typeof generateHTML !== 'undefined' ? generateHTML : undefined),
-                addInteractivity: (typeof addInteractivity !== 'undefined' ? addInteractivity : undefined),
-                checkAnswers: (typeof checkAnswers !== 'undefined' ? checkAnswers : undefined),
-                showAnswers: (typeof showAnswers !== 'undefined' ? showAnswers : undefined),
-                // Add other potential functions exported by templates here
-                // For example (uncomment/add as needed):
-                // rescramble: (typeof rescramble !== 'undefined' ? rescramble : undefined),
-                // rejumble: (typeof rejumble !== 'undefined' ? rejumble : undefined),
-                // resetActivity: (typeof resetActivity !== 'undefined' ? resetActivity : undefined),
-            };
-
-            // Check if essential functions exist
-            if (!moduleInterface.parseInput || !moduleInterface.generateHTML || !moduleInterface.addInteractivity) {
-                 console.error('Essential functions (parseInput, generateHTML, addInteractivity) missing in embedded code for match-up');
-                 return { // Return a dummy object to prevent further errors
-                     parseInput: () => null,
-                     generateHTML: () => ({html: '<p style="color:red">Error loading template.</p>', state: {}}),
-                     addInteractivity: () => {},
-                     checkAnswers: () => {},
-                     showAnswers: () => {}
-                 };
-            }
-
-            console.log('Successfully created embedded module interface for match-up');
-            return moduleInterface; // Return the created object
-
-        } catch (e) {
-             console.error("Error executing embedded template module code for match-up:", e);
-             return {}; // Return empty object on error
+        function showAnswers(activityElement, state) {
+            state.pairs.forEach(pair => {
+                const def = activityElement.querySelector(`#definition-${pair.id}`);
+                const zone = activityElement.querySelector(`.matchup-dropzone[data-term-id="${pair.id}"]`);
+                if (def && zone) {
+                    zone.appendChild(def);
+                }
+            });
+            checkAnswers(activityElement);
         }
+
+        function resetGame(activityElement, state) {
+            const pool = activityElement.querySelector('#matchup-definitions-list');
+            const allDefinitions = Array.from(activityElement.querySelectorAll('.matchup-definition'));
+            
+            activityElement.querySelectorAll('.matchup-dropzone').forEach(z => {
+                z.innerHTML = '';
+                z.classList.remove('bg-green-50', 'bg-red-50', 'border-green-500', 'border-red-500');
+            });
+            activityElement.querySelectorAll('.matchup-term-status').forEach(s => s.textContent = '');
+
+            shuffleArray(allDefinitions).forEach(def => {
+                def.setAttribute('draggable', 'true');
+                pool.appendChild(def);
+            });
+        }
+
+        return { generateHTML, addInteractivity };
     })();
-    window.standaloneTemplateModule = matchupTemplate;
-    console.log("Embedded Template Module object for 'match-up' assigned to window:", window.standaloneTemplateModule);
-    // --- End Embedded Template Code ---
-    
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const host = document.getElementById('standalone-activity');
+        const state = {"pairs":[
+            {"id":"pair-0","term":"1. A piece of","definition":"advice"},
+            {"id":"pair-1","term":"2. A work of","definition":"art"},
+            {"id":"pair-2","term":"3. A loaf of","definition":"bread"},
+            {"id":"pair-3","term":"4. An ear of","definition":"corn"},
+            {"id":"pair-4","term":"5. A jar of","definition":"honey"},
+            {"id":"pair-5","term":"6. A pinch of","definition":"salt"},
+            {"id":"pair-6","term":"7. A shot of","definition":"whiskey"},
+            {"id":"pair-7","term":"8. A drop of","definition":"blood"}
+        ]};
         
-// --- Initialization Logic ---
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("Standalone DOM loaded. Initializing activity...");
-    const activityHostElement = document.getElementById('standalone-activity');
-    let state = null;
-    const templateId = 'match-up';
-    const mode = undefined;
-    const actionModule = window.standaloneTemplateModule; // Use the exposed object
-
-    // --- Basic Sanity Checks ---
-    if (!activityHostElement) { /* ... */ return; }
-    if (!actionModule || typeof actionModule.addInteractivity !== 'function') { /* ... */ return; }
-    try { state = JSON.parse(`{"pairs":[{"id":"pair-0","term":"1. A piece of","definition":"advice"},{"id":"pair-1","term":"2. A work of","definition":"art"},{"id":"pair-2","term":"3. A loaf of","definition":"bread"},{"id":"pair-3","term":"4. An ear of","definition":"corn"},{"id":"pair-4","term":"5. A jar of","definition":"honey"},{"id":"pair-5","term":"6. A pinch of","definition":"salt"},{"id":"pair-6","term":"7. A shot of","definition":"whiskey"},{"id":"pair-7","term":"8. A drop of","definition":"blood"}]}`); } catch (parseError) { /* ... */ return; }
-    if (!state) { /* ... */ return; }
-
-    // --- Initialize Interactivity ---
-    try {
-        actionModule.addInteractivity(activityHostElement, state, mode);
-        console.log(`[Init Success] Standalone interactivity added for '${templateId}' with mode:`, mode);
-    } catch (initError) { /* ... */ return; }
-
-    // --- Attach Listener & Enable Buttons ---
-    const actionsContainer = activityHostElement.querySelector('.standalone-actions');
-    if (actionsContainer) {
-        console.log("[Init] Found actions container:", actionsContainer);
-
-        // --- Enable buttons *after* interactivity is added ---
-        console.log("[Init] Attempting to enable action buttons...");
-        let buttonsFound = 0;
-        actionsContainer.querySelectorAll('button.action-button').forEach(btn => {
-            if (btn.classList.contains('action-' + templateId)) {
-                const btnId = btn.id || 'no-id';
-                 btn.removeAttribute('disabled');
-                 console.log(`[Init] Enabled button: ${btnId}`);
-                 buttonsFound++;
-            } else { /* ... log skipping ... */ }
-        });
-         if (buttonsFound === 0) { /* ... warn no buttons found ... */ }
-
-        // --- Action Button Listeners ---
-         actionsContainer.addEventListener('click', (event) => {
-            const button = event.target.closest('button.action-button');
-            if (!button) return;
-            if (button.hasAttribute('disabled')) { /* ... log disabled click ... */ return; }
-
-            const buttonId = button.id ? button.id.toLowerCase() : '';
-            console.log(`[Click] Action button clicked: ID='${buttonId}'`);
-
-            try {
-                let actionHandled = false;
-
-                // Check/Show/Toggle Handlers
-                if (buttonId.includes('checkanswersbtn') && typeof actionModule.checkAnswers === 'function') { /* ... call checkAnswers ... */ actionHandled = true; }
-                else if (buttonId.includes('showanswersbtn') && typeof actionModule.showAnswers === 'function') { /* ... call showAnswers, disable button ... */ actionHandled = true; }
-                else if (buttonId.includes('togglequizviewbtn') && templateId === 'quiz') { /* ... quiz toggle logic ... */ actionHandled = true; }
-                // Anagram Rescramble
-                else if (buttonId.includes('rescramblebtn') && templateId === 'anagram' && typeof actionModule.rescramble === 'function') { /* ... call rescramble, enable buttons ... */ actionHandled = true; }
-                // Unjumble Re-jumble
-                else if (buttonId.includes('rejumblebtn') && templateId === 'unjumble' && typeof actionModule.rejumble === 'function') { /* ... call rejumble, enable buttons ... */ actionHandled = true; }
-                 // Matching Pairs / Open Box Reset
-                else if (buttonId.includes('resetbtn') && typeof actionModule.resetActivity === 'function') { /* ... call resetActivity, enable buttons ... */ actionHandled = true; }
-                // Wordsearch "Repuzzle"
-                 else if (buttonId.includes('repuzzlebtn') && templateId === 'wordsearch') { /* ... wordsearch repuzzle logic ... */ actionHandled = true; }
-                 // Wordsearch "Toggle List"
-                 else if (buttonId.includes('wordsearch-toggle-btn') && templateId === 'wordsearch') { /* ... wordsearch toggle list logic ... */ actionHandled = true; }
-
-                if (!actionHandled) { console.warn(`[Action Warn] No handler for button ID: ${buttonId}`); }
-
-            } catch(actionError) { console.error(`[Action Error] Error executing action for ${buttonId}:`, actionError); }
-         });
-         console.log("[Init Success] Standalone action button listeners attached.");
-
-    } else { console.warn("[Init Warn] Standalone actions container not found."); }
-});
-// --- End Initialization Logic ---
-
+        const { html } = matchupTemplate.generateHTML(state.pairs);
+        host.innerHTML = html;
+        matchupTemplate.addInteractivity(host, state);
+    });
     </script>
-
 </body>
 </html>
